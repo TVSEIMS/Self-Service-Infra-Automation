@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: azure/login@v2
         with:
-          client-id: ${{ vars.4be9dff1-14ec-4394-99be-73765be5ed5f }}
-          tenant-id: ${{ vars.59bf09cd-0e7f-4322-a935-2a8c659e5d41 }}
-          subscription-id: ${{ vars.e9a23062-3783-48ff-b4a8-f7814c17bd1e}}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       - run: az account show
