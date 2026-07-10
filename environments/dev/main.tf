@@ -25,7 +25,7 @@ data "azurerm_resource_group" "existing" {
 module "test_vm" {
   source              = "../../modules/vm"
   vm_name             = "test-vm-01"
-  vm_size             = "Standard_B2s"
+  vm_size             = "Standard_D2s_v3"
   resource_group_name = data.azurerm_resource_group.existing.name
   location            = data.azurerm_resource_group.existing.location
   subnet_id           = "/subscriptions/e9a23062-3783-48ff-b4a8-f7814c17bd1e/resourceGroups/rg_Infra_Automation_Dev/providers/Microsoft.Network/virtualNetworks/VNet-Infra-Automation-Dev/subnets/snet-vms-dev"
