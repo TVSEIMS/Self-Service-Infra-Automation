@@ -28,7 +28,7 @@ module "test_vm" {
   vm_size             = "Standard_B1s"
   resource_group_name = data.azurerm_resource_group.existing.name
   location            = data.azurerm_resource_group.existing.location
-  subnet_id           = "e9a23062-3783-48ff-b4a8-f7814c17bd1e"
+  subnet_id           = "/subscriptions/e9a23062-3783-48ff-b4a8-f7814c17bd1e/resourceGroups/rg_Infra_Automation_Dev/providers/Microsoft.Network/virtualNetworks/VNet-Infra-Automation-Dev/subnets/sent-vms-dev"
   ssh_public_key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBhkqLmUe0VBhAaRBqxJwQ2TDE7r6pSf91VpFmbh2EY+ infra-automation"
   tags = {
     environment = "dev"
