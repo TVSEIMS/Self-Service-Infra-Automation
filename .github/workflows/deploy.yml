@@ -1,6 +1,15 @@
 name: Terraform Test Deploy
 on:
   workflow_dispatch:
+    inputs:
+      vm_name:
+        description: 'VM name (for manual test runs)'
+        required: false
+        default: 'manual-test-vm'
+      vm_size:
+        description: 'VM size (for manual test runs)'
+        required: false
+        default: 'Standard_D2s_v3'
   repository_dispatch:
     types: [infra-request]
 permissions:
@@ -15,20 +24,23 @@ jobs:
         working-directory: environments/dev
     steps:
       - uses: actions/checkout@v4
-
       - uses: azure/login@v2
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-
       - uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Plan
-        run: terraform plan
+      - name: Terraform Plan (from SDP ticket)
+        if: github.event_name == 'repository_dispatch'
+        run: terraform plan -var-file="../../${{ github.event.client_payload.tfvars_file }}" -out=tfplan
+
+      - name: Terraform Plan (manual test run)
+        if: github.event_name == 'workflow_dispatch'
+        run: terraform plan -var="vm_name=${{ github.event.inputs.vm_name }}" -var="vm_size=${{ github.event.inputs.vm_size }}" -out=tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
